@@ -17,6 +17,8 @@ const init = function () {
             viewDepartment();
         } else if (response.select === menuChoices[1]) {
             viewRole();
+        } else if (response.select === menuChoices[2]) {
+            viewEmployees();
         }
     })
 };
@@ -37,4 +39,11 @@ const viewRole = function() {
     });
 };
 
+const viewEmployees = function() {
+    db.query('SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, manager_id AS manager FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id', function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        init();
+    })
+}
 module.exports = { init };
