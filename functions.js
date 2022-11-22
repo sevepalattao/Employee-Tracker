@@ -19,6 +19,8 @@ const init = function () {
             viewRole();
         } else if (response.select === menuChoices[2]) {
             viewEmployees();
+        } else if (response.select === menuChoices[3]) {
+            addDepartment();
         }
     })
 };
@@ -44,6 +46,23 @@ const viewEmployees = function() {
         if (err) throw err;
         console.table(res);
         init();
-    })
-}
+    });
+};
+
+const addDepartment = function() {
+    inquirer
+    .prompt({
+        message: 'What is the name of the department?',
+        name:'department',
+        type: 'input',
+    }).then((response) => {
+        db.query('INSERT INTO department(name) VALUES (?)', [response.department], function(err, res) {
+            if (err) throw err;
+            console.log(`${response.department} department added.\n`);
+            init();
+        });
+    });
+};
+
+
 module.exports = { init };
