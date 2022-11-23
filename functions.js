@@ -21,6 +21,8 @@ const init = function () {
             viewEmployees();
         } else if (response.select === menuChoices[3]) {
             addDepartment();
+        } else if (response.select === menuChoices[4]) {
+            addRole();
         }
     })
 };
@@ -63,6 +65,52 @@ const addDepartment = function() {
         });
     });
 };
+
+const addRole = function() {
+    db.query('SELECT * FROM department', function(err, res) {
+        if (err) { throw err;
+        } else {
+            let departments=[];
+            for (let i=0; i <res.length;i++) {
+                departments.push(res[i].name);
+            };
+            console.log(departments);
+            inquirer
+            .prompt([
+                {
+                    message: 'What is the name of the role?\n',
+                    name: 'role',
+                    type: 'input',
+                },
+                {
+                    message: 'What is the salary of the role?\n',
+                    name: 'salary',
+                    type: 'input',
+                },
+                {
+                    message: 'Which department does the role belong to?\n',
+                    type: 'list',
+                    name: 'dpmt',
+                    choices: departments,
+                },
+            ]).then((response) => {
+                let dpmtID;
+                for (let i =0; i< res.length; i++) {
+                    if (response.dpmt === res[i].name) {
+                        dpmtID = res[i].id;
+                    }
+                }
+                
+                db.query('INSERT INTO role(title, salary, department_id) VALUES(?,?,?)',[response.role, response.salary, dpmtID], function(err, res) {
+                    if (err) throw err;
+                    console.log(`Added ${response.role} to the database.\n`);
+                    init();
+                });
+            });
+        };
+    });
+};
+
 
 
 module.exports = { init };
