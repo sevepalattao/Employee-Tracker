@@ -159,7 +159,7 @@ const addEmployee = function() {
             ]).then((response) => {
                 let jobID;
                 for(let i=0; i<res.length; i++) {
-                    if (response.role === res.role) {
+                    if (response.role === res[i].title) {
                         jobID = res[i].role_id;
                     };
                 };
@@ -202,7 +202,7 @@ const updateEmployee = function() {
             ]).then((response) => {
                 let jobID;
                 for (let i=0; i< res.length; i++) {
-                    if (response.role === res.role) {
+                    if (response.role === res[i].title) {
                         jobID = res[i].role_id;
                     };
                 };
