@@ -23,6 +23,13 @@ const init = function () {
             addDepartment();
         } else if (response.select === menuChoices[4]) {
             addRole();
+        } else if (response.select === menuChoices[5]) {
+            addEmployee();
+        } else if (response.select === menuChoices[6]) {
+            updateEmployee();
+        } else if (response.select === menuChoices[7]) {
+            console.log('Goodbye')
+            db.end();
         }
     })
 };
@@ -111,6 +118,12 @@ const addRole = function() {
     });
 };
 
+const addEmployee = function() {
 
+};
+
+const updateEmployee = function() {
+    db.query("SELECT first_name + ' ' + last_name FROM employee")
+}
 
 module.exports = { init };
